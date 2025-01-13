@@ -1,9 +1,9 @@
-"""
-Estimating the causal effect of sodium on blood pressure in a simulated example
-adapted from Luque-Fernandez et al. (2018):
-    https://academic.oup.com/ije/article/48/2/640/5248195
-"""
-
+# -*- coding: utf-8 -*-
+# @Time    : 2025/1/13 19:30
+# @Author  : D.N. Huang
+# @Email   : CarlCypress@yeah.net
+# @FileName: causal_learning.py
+# @Project : causal_learning
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
@@ -11,7 +11,7 @@ from sklearn.linear_model import LinearRegression
 
 def generate_data(n=1000, seed=0, beta1=1.05, alpha1=0.4, alpha2=0.3, binary_treatment=True, binary_cutoff=3.5):
     np.random.seed(seed)
-    age = np.random.normal(65, 5, n)
+    age = np.random.normal(65, 5, n)  # age ~ N(65, 5^2)
     sodium = age / 18 + np.random.normal(size=n)
     if binary_treatment:
         if binary_cutoff is None:
@@ -40,9 +40,9 @@ if __name__ == '__main__':
     binary_t_df = generate_data(beta1=1.05, alpha1=.4, alpha2=.3, binary_treatment=True, n=10000000)
     continuous_t_df = generate_data(beta1=1.05, alpha1=.4, alpha2=.3, binary_treatment=False, n=10000000)
 
-    ate_est_naive = None
-    ate_est_adjust_all = None
-    ate_est_adjust_age = None
+    ate_est_naive = None  # 无控制
+    ate_est_adjust_all = None  # 控制年龄和蛋白糖
+    ate_est_adjust_age = None  # 仅控制年龄
 
     for df, name in zip([binary_t_df, continuous_t_df],
                         ['Binary Treatment Data', 'Continuous Treatment Data']):
